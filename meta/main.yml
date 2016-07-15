@@ -1,0 +1,19 @@
+galaxy_info:
+  author: Konstantin Kruglov
+  description: deploing latest version nginx
+  license: Apache license v2
+  min_ansible_version: 1.2
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+  - name: Debian
+    versions:
+    - lenny
+
+  galaxy_tags:
+    - web
+    - system
+    - network
+
+dependencies: []

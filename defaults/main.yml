@@ -1,0 +1,10 @@
+---
+# defaults file for ansible-nginx
+nginx_user:                           "www-data"
+nginx_worker_processes:               "auto"
+nginx_pid:                            "/run/nginx.pid"
+nginx_worker_connections:             768
+nginx_server_names_hash_bucket_size:  64
+nginx_access_log:                     "/var/log/nginx/access.log"
+nginx_error_log:                      "/var/log/nginx/error.log"
+nginx_site_enabled_dir:               "/etc/nginx/sites-enabled/*.conf"
