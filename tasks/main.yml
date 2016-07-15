@@ -1,6 +1,26 @@
 ---
 # tasks file for ansible-nginx
 
+- name: setup key
+  apt_key:
+    url: "{{ nginx_key }}"
+
+- name: add repository
+  apt_repository:
+    repo: "{{ item }}"
+  with_items:
+    - "deb http://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx"
+    - "deb-src http://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx"
+  when: ansible_distribution == 'Debian'
+
+- name: add repository
+  apt_repository:
+    repo: "{{ item }}"
+  with_items:
+    - "deb http://nginx.org/packages/ubuntu/ {{ ansible_distribution_release }} nginx"
+    - "deb-src http://nginx.org/packages/ubuntu/ {{ ansible_distribution_release }} nginx"
+  when: ansible_distribution == 'Ubuntu'
+
 - name: install latest version
   apt:
     name: nginx
@@ -9,7 +29,47 @@
     state: latest
   notify: restart nginx
 
+- name: create directories
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: root
+    group: root
+    mode: 0755
+  with_items: "{{ nginx_conf_dirs }}"
+
+- stat:
+    path: "/etc/nginx/conf.d/default.conf"
+  register: nginx_conf_st
+
+- name: forward default.conf to new config directory
+  command: "mv /etc/nginx/conf.d/default.conf /etc/nginx/sites-available/"
+  when: nginx_conf_st.stat.exists
+
+- name: delete old config directory
+  file:
+    path: "{{ nginx_conf_st.stat.path | dirname }}"
+    state: absent
+  when: nginx_conf_st.stat.exists
+
+- name: enable default site
+  file:
+    state: link
+    src: /etc/nginx/sites-available/default.conf
+    dest: /etc/nginx/sites-enabled/default.conf
+  notify: restart nginx
+  when: nginx_enable_defualt_site
+
+- name: disable default site
+  file:
+    state: absent
+    path: /etc/nginx/sites-enabled/default.conf
+  notify: restart nginx
+  when: nginx_enable_defualt_site == False
+
 - name: update nginx.conf
+  tags:
+    - nginx-conf
   template:
     src: nginx.conf.j2
     dest: /etc/nginx/nginx.conf

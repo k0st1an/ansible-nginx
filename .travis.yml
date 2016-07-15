@@ -6,11 +6,20 @@ python: "2.7"
 sudo: required
 dist: trusty
 
+env:
+  matrix:
+    - DEFUALT_SITE="nginx_enable_defualt_site=True"
+    - DEFUALT_SITE="nginx_enable_defualt_site=False"
+
+virtualenv:
+  system_site_packages: true
+
 # Install ansible
 addons:
   apt:
     packages:
     - python-pip
+    - python-apt
 
 install:
   # Install ansible
@@ -25,4 +34,4 @@ install:
 script:
   # Basic role syntax check
   - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
-  - ansible-playbook tests/test.yml -i tests/inventory --connection=local --become
+  - ansible-playbook tests/test.yml -i tests/inventory --connection=local --become -e "$DEFUALT_SITE"

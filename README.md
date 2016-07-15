@@ -7,6 +7,11 @@ Ansible-Nginx
 Ansible role for deploing latest version Nginx
 
 
+Tags:
+
+- `nginx-conf` - to update `/etc/nginx/nginx.conf`
+
+
 Example Playbook
 ----------------
 
