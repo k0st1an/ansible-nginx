@@ -9,7 +9,7 @@ galaxy_info:
     - trusty
   - name: Debian
     versions:
-    - lenny
+    - jessie
 
   galaxy_tags:
     - web
