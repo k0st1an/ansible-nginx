@@ -71,9 +71,13 @@
   tags:
     - nginx-conf
   template:
-    src: nginx.conf.j2
+    src: nginx.conf
     dest: /etc/nginx/nginx.conf
     owner: root
     group: root
     mode: 0644
   notify: restart nginx
+
+- command: openssl dhparam -out {{ nginx_ssl_dhparam_file }} 2048
+  args:
+    creates: "{{ nginx_ssl_dhparam_file }}"

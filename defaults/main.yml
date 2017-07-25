@@ -6,6 +6,8 @@ nginx_enable_defualt_site:            True
 nginx_conf_dirs:
   - "/etc/nginx/sites-available"
   - "/etc/nginx/sites-enabled"
+  - "/etc/nginx/snippets"
+nginx_hsts_enable:                    False
 
 # nginx.conf
 nginx_user:                           "nginx"
@@ -17,3 +19,4 @@ nginx_server_names_hash_bucket_size:  64
 nginx_access_log:                     "/var/log/nginx/access.log"
 nginx_error_log:                      "/var/log/nginx/error.log"
 nginx_site_enabled_dir:               "/etc/nginx/sites-enabled/*.conf"
+nginx_ssl_dhparam_file:               "/etc/ssl/certs/dhparam.pem"
