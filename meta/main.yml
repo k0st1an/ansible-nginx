@@ -6,14 +6,12 @@ galaxy_info:
   platforms:
   - name: Ubuntu
     versions:
-    - trusty
+      - all
   - name: Debian
     versions:
-    - jessie
+      - all
 
   galaxy_tags:
     - web
-    - system
-    - network
 
 dependencies: []
