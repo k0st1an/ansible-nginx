@@ -3,12 +3,12 @@
 
 nginx_key:                            "http://nginx.org/keys/nginx_signing.key"
 nginx_enable_defualt_site:            True
-nginx_configs_dir:                    "/etc/nginx/conf.d"
-nginx_conf_dirs:
-  - "/etc/nginx/sites-available"
-  - "/etc/nginx/sites-enabled"
-  - "/etc/nginx/snippets"
 nginx_hsts_enable:                    False
+nginx_configs_dir:                    "/etc/nginx/conf.d"
+nginx_snippets_dir:                   "/etc/nginx/snippets"
+nginx_site_enabled_dir:               "/etc/nginx/sites-enabled"
+nginx_site_available_dir:             "/etc/nginx/sites-available"
+nginx_ssl_dhparam_file:               "/etc/nginx/dhparam.pem"
 
 # nginx.conf
 nginx_user:                           "nginx"
@@ -19,6 +19,4 @@ nginx_server_tokens:                  "off"
 nginx_server_names_hash_bucket_size:  64
 nginx_access_log:                     "/var/log/nginx/access.log"
 nginx_error_log:                      "/var/log/nginx/error.log"
-nginx_site_enabled_dir:               "/etc/nginx/sites-enabled/*.conf"
-nginx_ssl_dhparam_file:               "/etc/nginx/dhparam.pem"
 nginx_multi_accept:                   "off"

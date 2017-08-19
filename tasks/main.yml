@@ -36,28 +36,32 @@
     owner: root
     group: root
     mode: 0755
-  with_items: "{{ nginx_conf_dirs }}"
+  with_items:
+    - '{{ nginx_configs_dir }}'
+    - '{{ nginx_snippets_dir }}'
+    - '{{ nginx_site_available_dir }}'
+    - '{{ nginx_site_enabled_dir }}'
 
 - stat:
-    path: "/etc/nginx/conf.d/default.conf"
+    path: "{{ nginx_configs_dir }}/default.conf"
   register: nginx_conf_st
 
 - name: forward default.conf to new config directory
-  command: "mv /etc/nginx/conf.d/default.conf /etc/nginx/sites-available/"
+  command: "mv {{ nginx_configs_dir }}/default.conf {{ nginx_site_available_dir }}/"
   when: nginx_conf_st.stat.exists
 
 - name: enable default site
   file:
     state: link
-    src: /etc/nginx/sites-available/default.conf
-    dest: /etc/nginx/sites-enabled/default.conf
+    src: '{{ nginx_site_available_dir }}/default.conf'
+    dest: '{{ nginx_site_enabled_dir }}/default.conf'
   notify: restart nginx
   when: nginx_enable_defualt_site
 
 - name: disable default site
   file:
     state: absent
-    path: /etc/nginx/sites-enabled/default.conf
+    path: '{{ nginx_site_enabled_dir }}/default.conf'
   notify: restart nginx
   when: nginx_enable_defualt_site == False
 
