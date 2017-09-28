@@ -80,13 +80,14 @@
   tags:
     - nginx-conf
   template:
-    src: ssl-paramas.conf
-    dest: '{{ nginx_configs_dir }}/ssl-paramas.conf'
+    src: ssl-params.conf
+    dest: '{{ nginx_configs_dir }}/ssl-params.conf'
     owner: root
     group: root
     mode: 0644
   notify: restart nginx
 
-- command: openssl dhparam -out {{ nginx_ssl_dhparam_file }} 2048
+- name: generate Diffie–Hellman key
+  command: openssl dhparam -out {{ nginx_ssl_dhparam_file }} 2048
   args:
     creates: "{{ nginx_ssl_dhparam_file }}"
